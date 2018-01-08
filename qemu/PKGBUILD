@@ -18,11 +18,13 @@ makedepends=(spice-protocol python2 ceph libiscsi glusterfs)
 source=("$url/download/${pkgname}-${pkgver}.tar.bz2"{,.sig}
         qemu-ga.service
         65-kvm.rules
+        dont-grab.patch
         allow_elf64.patch)
 sha256sums=('c4f034c7665a84a1c3be72c8da37f3c31ec063475699df062ab646d8b2e17fcb'
             'SKIP'
             'c39bcde4a09165e64419fd2033b3532378bba84d509d39e2d51694d44c1f8d88'
             'a66f0e791b16b03b91049aac61a25950d93e962e1b2ba64a38c6ad7f609b532c'
+            'SKIP'
             '13a6d9e678bdc9e1f051006cfd0555f5a80582368f54c8a1bb5a78ece3832ac4')
 validpgpkeys=('CEACC9E15534EBABB82D3FA03353C9CEF108B584')
 
@@ -32,13 +34,14 @@ case $CARCH in
 esac
 
 prepare() {
-  mkdir build-{full,headless}
+  mkdir -p build-{full,headless}
   mkdir -p extra-arch-{full,headless}/usr/{bin,share/qemu}
 
   cd ${pkgname}-${pkgver}
   sed -i 's/vte-2\.90/vte-2.91/g' configure
 
   patch -p1 < ../allow_elf64.patch
+  patch -p1 < ../dont-grab.patch
 }
 
 build() {

@@ -1,3 +1,5 @@
 *.pkg.*
 qemu-*.tar*
 qemu-*.sig
+pkg
+src
